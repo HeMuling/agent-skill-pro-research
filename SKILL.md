@@ -3,13 +3,18 @@ name: pro-research
 description: |
   Oracle-backed browser-first escalation skill for deep research, hard
   diagnosis, and second-opinion analysis. Use when the user is stuck, asks for
-  研判 or 会诊, wants a second opinion, says the problem is complex, weird, or
-  hard to locate, or needs long-context cross-file analysis across code, logs,
-  docs, configs, notes, papers, experiment records, and result summaries.
-  Trigger on requests such as “卡住了”, “把代码、日志、文档一起看”, “先不要直接修，先
-  research”, “实现、文档、配置、现象对不上”, “给我一个高质量判断”, “帮我做文献调研”,
-  “帮我综合多篇材料”, “帮我比较不同方法/理论/路线”, “帮我分析实验异常或结果矛盾”,
-  “帮我判断理论推导或论证链是否成立”, and “帮我做论文规划/贡献定位/研究路线设计”.
+  differential diagnosis or consultation, wants a second opinion, says the
+  problem is complex, unusual, or hard to locate, or needs long-context
+  cross-file analysis across code, logs, docs, configs, notes, papers, experiment
+  records, and result summaries.
+  Trigger on requests such as “I am stuck,” “review code, logs, and docs together,”
+  “pause before patching and investigate first,” “implementation and documentation
+  do not match,” “I need a high-quality assessment,” “help me do literature
+  research,” “synthesize findings across multiple sources,” “compare competing
+  methods/theories/approaches,” “analyze anomalous experiments or conflicting
+  results,” “check whether a derivation or argument chain is actually valid,” and
+  “help me plan a paper: framing, contribution definition, and research
+  roadmap.”
   Use when the main need is to judge what is happening, what the evidence
   supports, which hypotheses remain plausible, and what to do next. Do not use
   it for direct bug fixing, regression repair, ordinary PR review, browser
