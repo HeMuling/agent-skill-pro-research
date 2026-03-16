@@ -28,9 +28,9 @@ Use Oracle as a browser-first second-model pass for high-ambiguity engineering d
 ## Decision Rule
 
 - Use this skill when the main need is to understand what is happening, what the evidence supports, which hypotheses remain plausible, and what to investigate next.
-- Use `debug-fix` when the problem is already scoped and the next step is to implement a repair and prove it with tests.
-- Use `academic-writing` when the main task is to rewrite or polish existing academic prose.
-- Use `cite-placement` when the task is narrow citation placement or citation-span audit.
+- Move to a dedicated implementation-and-fix workflow when the problem is already scoped and the next step is to implement a repair and prove it with tests.
+- Move to a dedicated academic prose polishing workflow when the main task is to rewrite or refine existing scholarly text.
+- Move to a dedicated citation-placement workflow when the task is narrow citation placement, footnote audit, or reference span checking.
 
 ## Browser Readiness
 
