@@ -1,0 +1,6 @@
+interface:
+  display_name: "Pro Research"
+  short_description: "Deep research and diagnosis with Oracle"
+  default_prompt: "Use $pro-research to run a browser-first Oracle pass for hard diagnosis, literature synthesis, experiment analysis, or mixed evidence research."
+policy:
+  allow_implicit_invocation: true
