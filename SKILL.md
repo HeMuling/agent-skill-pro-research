@@ -1,24 +1,8 @@
 ---
 name: pro-research
 description: |
-  Oracle-backed browser-first escalation skill for deep research, hard
-  diagnosis, and second-opinion analysis. Use when the user is stuck, asks for
-  differential diagnosis or consultation, wants a second opinion, says the
-  problem is complex, unusual, or hard to locate, or needs long-context
-  cross-file analysis across code, logs, docs, configs, notes, papers, experiment
-  records, and result summaries.
-  Trigger on requests such as “I am stuck,” “review code, logs, and docs together,”
-  “pause before patching and investigate first,” “implementation and documentation
-  do not match,” “I need a high-quality assessment,” “help me do literature
-  research,” “synthesize findings across multiple sources,” “compare competing
-  methods/theories/approaches,” “analyze anomalous experiments or conflicting
-  results,” “check whether a derivation or argument chain is actually valid,” and
-  “help me plan a paper: framing, contribution definition, and research
-  roadmap.”
-  Use when the main need is to judge what is happening, what the evidence
-  supports, which hypotheses remain plausible, and what to do next. Do not use
-  it for direct bug fixing, regression repair, ordinary PR review, browser
-  manipulation, academic prose rewriting, or narrow citation work.
+  A research and technical reasoning skill for difficult, ambiguous problems: use when evidence is sparse, conflicting, or distributed across sources, and the goal is to build a rigorous problem model, propose explanatory hypotheses, and design solution paths with theory-grounded reasoning before changing code. It is designed for complex synthesis, derivation-style analysis, and validation of inference chains across code, logs, docs, configs, tests, metrics, and experimental notes, with an explicit technical route-to-solution outcome.
+  Not for: direct patching, routine bug fixes, ordinary PR reviews, browser automation, academic prose polishing, or narrow citation-only checks.
 ---
 
 # Pro Research
