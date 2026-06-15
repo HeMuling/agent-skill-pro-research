@@ -1,36 +1,37 @@
 # Root-Cause Hypotheses
 
-Use this when one round of debugging still leaves multiple plausible explanations.
+Use this when one round of investigation still leaves multiple plausible explanations. The point is to preserve competing explanations in the single file instead of flattening them too soon.
 
 ## Hypothesis Grid
 
-Ask Oracle to compare at least three explanations:
+Compare at least three explanations:
 
 1. Most likely explanation
 2. Plausible alternative
 3. Less likely but dangerous explanation
 
-## Prompt Skeleton
+## What To Pull Into The File
+
+- In `Current Context`: system or module background, recent changes, adjacent component context, and prior-state information that makes the hypotheses legible.
+- In `Observed Facts`: symptom, failure, contradiction, or traceable event.
+- In `Comparisons and Tensions`: the source conflicts or behavioral differences that keep multiple explanations alive.
+- In `Hypotheses or Interpretive Angles`: each explanation with support and contradiction side by side.
+- In `Open Questions`: what would discriminate between the hypotheses.
+- In `Missing Materials`: the highest-value missing evidence.
+- In `Inlined Source Materials`: logs and code, plus the system background, config history, ADRs, or change notes needed to understand why the alternatives are plausible.
+
+## Hypothesis Template
 
 ```text
-Task type: root-cause-hypotheses
+Hypothesis:
+<explanation>
 
-Observed problem:
-<symptom, contradiction, or failure>
+Support:
+- <fact tied to a source>
 
-Materials map:
-- <path>: code
-- <path>: config
-- <path>: log
-- <path>: note or doc
+Contradictions:
+- <fact tied to a source>
 
-Question:
-Compare the most plausible root-cause hypotheses for this problem.
-
-Required output:
-- Hypothesis list
-- Evidence supporting each hypothesis
-- Evidence contradicting each hypothesis
-- What evidence is still missing
-- Highest-value next check
+Why it still matters:
+- <why the hypothesis cannot yet be ruled out>
 ```

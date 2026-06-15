@@ -1,125 +1,162 @@
 ---
-name: pro-research
+name: ask-pro-model
 description: |
-  A research and technical reasoning skill for difficult, ambiguous problems: use when evidence is sparse, conflicting, or distributed across sources, and the goal is to build a rigorous problem model, propose explanatory hypotheses, and design solution paths with theory-grounded reasoning before changing code. It is designed for complex synthesis, derivation-style analysis, and validation of inference chains across code, logs, docs, configs, tests, metrics, and experimental notes, with an explicit technical route-to-solution outcome.
-  Not for: direct patching, routine bug fixes, ordinary PR reviews, browser automation, academic prose polishing, or narrow citation-only checks.
+  Manual-only. Use only when the user explicitly mentions `$ask-pro-model` or provides the skill path and asks to compile a rich evidence package for a difficult, evidence-heavy task, then consult ChatGPT Pro through Safari with Computer Use. It prepares a timestamped run directory with `research-context.md`, `pro-prompt.md`, and `pro-response.md`, and waits for the Pro model to finish instead of timing out. Typical uses include complex engineering diagnosis, literature synthesis, experiment anomaly review, theory checks, contribution planning, or second-opinion discussion.
+  Not for: implicit invocation, direct patching, routine bug fixes, ordinary PR reviews, academic prose polishing, narrow citation-only checks, or API/Oracle/Playwright model runs.
 ---
 
-# Pro Research
+# Ask Pro Model
 
-Use Oracle as a browser-first second-model pass for high-ambiguity engineering diagnosis and scientific research reasoning. Treat Oracle output as advisory, evidence-bound analysis rather than ground truth.
+Use this skill to turn scattered relevant materials into a high-signal research package, ask ChatGPT Pro through Safari for a second opinion, and save the final answer back to disk. The package should give the Pro model enough context to reason from original materials without hunting across many files, and should bias toward topic-bounded completeness rather than aggressive pruning.
+
+Invoke this skill only on explicit request. Do not use it from task-shape inference alone.
 
 ## Decision Rule
 
-- Use this skill when the main need is to understand what is happening, what the evidence supports, which hypotheses remain plausible, and what to investigate next.
-- Move to a dedicated implementation-and-fix workflow when the problem is already scoped and the next step is to implement a repair and prove it with tests.
-- Move to a dedicated academic prose polishing workflow when the main task is to rewrite or refine existing scholarly text.
-- Move to a dedicated citation-placement workflow when the task is narrow citation placement, footnote audit, or reference span checking.
-
-## Browser Readiness
-
-- Before the first browser run on a machine, or whenever ChatGPT login state is unknown, run:
-
-  ```bash
-  scripts/run_pro_research.sh login
-  ```
-
-- Complete the ChatGPT sign-in flow in the opened browser window before starting any real Oracle work.
-- The login bootstrap is intended to be one-time per machine/profile. Later `run` calls should reuse the same persistent automation profile and the same DevTools port instead of asking you to sign in again.
-- If a browser run fails with missing cookies, login button detection, or ChatGPT session errors, rerun `scripts/run_pro_research.sh login` and only then continue.
+- Use this skill when the main need is to clarify what the materials say, what is confirmed, what remains interpretive, and what ChatGPT Pro thinks after seeing the packaged evidence.
+- Use it when the user wants a durable non-project run directory containing the evidence package, exact prompt, Pro response, and any run notes.
+- Move to a dedicated implementation-and-fix workflow when the problem is already scoped and the next step is to change code and prove the repair with tests.
+- Move to a dedicated academic prose polishing workflow when the main task is rewriting prose rather than preparing evidence.
 
 ## Workflow
 
-1. Confirm that the task justifies escalation.
-   Reach for this skill when one pass of investigation still leaves multiple plausible explanations, or when the answer depends on comparing several evidence sources together.
+1. Create a non-project run directory.
+   Use `${CODEX_HOME:-$HOME/.codex}/ask-pro-model/<timestamp>-<slug>/`, where `<timestamp>` is sortable local time and `<slug>` is a short sanitized task label. Do not write the primary outputs into the project worktree.
 
-2. Ensure browser login is ready.
-   If ChatGPT login state is unknown, bootstrap it with `scripts/run_pro_research.sh login` before spending time on prompt assembly.
+2. Define the task before gathering details.
+   Identify the goal, the exact question, the decision to unblock, the scope limits, and the fixed constraints.
 
-3. Pick a concrete deliverable before gathering files.
-   Good outputs include a diagnosis memo, second-opinion brief, literature synthesis, anomaly explanation, research-gap summary, theory-check note, or next-steps plan.
+3. Build a topic-bounded evidence and background set.
+   Gather the materials that contain the truth about the question and the background needed to interpret it: notes, logs, code, configs, paper extracts, experiment summaries, meeting notes, ADRs, design docs, decision records, schemas, terminology notes, method notes, and relevant historical context.
 
-4. Build the smallest evidence package that still contains the truth.
-   Prefer Markdown, text, logs, code, config, and notes with enough context and background. Include rich, task-relevant description to preserve reasoning continuity while still pruning noise. A useful target is to let relevant context dominate around 70%–90% of the payload where practical.
-   Convert PDFs, slides, spreadsheets, images, and web captures into text before using the wrapper.
+4. Convert non-text artifacts before use.
+   Extract relevant text from PDFs, slides, spreadsheets, screenshots, and other binaries, then treat the converted text as the source material to inline.
 
-5. Bias for context completeness within a focused boundary.
-   When in doubt, add more related content and background that directly explains what happened, what changed, and why it matters, as long as it stays within the evidence scope and remains relevant to the chosen deliverable.
+5. Prefer topic-bounded completeness over minimality.
+   Do not stop at the smallest bundle that still contains the truth. If a text-like file adds distinct explanatory value within the same topic boundary, include it. If it is very long, inline the relevant full sections in original order and mark where content was omitted.
 
-6. Load the right reference before writing the prompt.
-   Read only the file that matches the task:
+6. Read the right references before writing.
+   Start with:
+   - `references/single-file-layout.md`
    - `references/problem-framing.md`
+   - `references/context-selection.md`
+   - `references/chatgpt-pro-safari.md`
+
+   Then load the task-specific reference that matches the job:
    - `references/second-opinion-brief.md`
    - `references/root-cause-hypotheses.md`
    - `references/literature-synthesis.md`
    - `references/experiment-anomaly-diagnosis.md`
    - `references/argument-and-contribution-planning.md`
    - `references/theory-derivation-check.md`
-   - `references/context-selection.md`
 
-7. Preview the bundle before starting a long Oracle run.
-   Run:
+7. Compose the single file in fixed order.
+   Write `research-context.md` in the run directory. Follow the required section order exactly so the reader sees task framing before evidence details.
 
-   ```bash
-   scripts/run_pro_research.sh preview "<task>" <paths...>
-   ```
+8. Write analysis sections separately from source insertion.
+   Analytical sections such as `Task Purpose`, `Current Context`, `Observed Facts`, `Comparisons and Tensions`, `Open Questions`, and `Missing Materials` may be authored manually. `Inlined Source Materials` must be built from files on disk with shell commands, not manual paste.
 
-   Remove noisy files until the bundle is focused and the file report looks sane.
+9. Keep facts and interpretation separate.
+   `Observed Facts` must contain only claims grounded directly in the materials. Put explanations, hypotheses, and judgments later under clearly labeled interpretive sections.
 
-8. Start the browser run only after the preview looks clean.
-   Run:
+10. Inline sources with shell commands and path labels.
+   Use `printf` for source headings and omission notes, `cat` for full-file insertion, and `sed -n` or `awk` for partial insertion from long files. Append all source text to `research-context.md` with shell redirection rather than retyping it manually.
 
-   ```bash
-   scripts/run_pro_research.sh run "<task>" <paths...>
-   ```
+11. Write `pro-prompt.md`.
+   Include the exact instruction to ChatGPT Pro: the deliverable requested, the core question, the reasoning style expected, the constraints, and how to use the attached or pasted `research-context.md`. Make clear that the Pro response is advisory and should cite evidence from the package.
 
-   The wrapper defaults to `npx -y @steipete/oracle --engine browser --browser-manual-login --browser-port 9333 --browser-reuse-wait 10s --browser-profile-lock-timeout 300s --model gpt-5.4-pro`.
+12. Confirm before transmission when required.
+   Sending the package to ChatGPT is third-party data transmission. If the user's current request did not explicitly approve sending this specific package to ChatGPT Pro, ask for action-time confirmation before uploading or pasting any content.
 
-9. Reattach instead of rerunning.
-   Long Oracle sessions often detach. Use:
+13. Use Safari and Computer Use for ChatGPT Pro.
+   Follow `references/chatgpt-pro-safari.md`. Do not use Oracle, Playwright, browser API automation, or model API mode. Prefer uploading `research-context.md` and pasting `pro-prompt.md`; if upload is unavailable, paste combined content only if the UI accepts it.
 
-   ```bash
-   oracle status --hours 72
-   oracle session <id>
-   ```
+14. Wait until ChatGPT Pro finishes.
+   If ChatGPT is visibly thinking, streaming, or otherwise progressing normally, do not interrupt, restart, or abandon the run because it is slow. Run `scripts/wait_for_pro_response.sh` between checks and continue until completion.
 
-   Do not create duplicate runs for the same prompt unless the user explicitly wants a fresh pass.
+15. Save the final response.
+   Copy the completed ChatGPT Pro answer into `pro-response.md`. If login, model selection, upload, or waiting issues occurred, write concise notes to `run-notes.md`.
 
-10. Enforce research-result gating.
-   Any subsequent step that depends on Oracle/pro-research output is blocked until the run is finished and the full result is received. Do not infer, decide, or execute follow-up actions that consume the missing result.
+16. End with uncertainty, not false closure.
+   Make missing materials, open questions, and unsupported claims explicit instead of smoothing them over.
 
-11. Use waiting time productively.
-   While waiting, continue task-relevant local work only (e.g., deeper local evidence reading, scenario framing, non-pro-research reasoning, alternative hypothesis generation tied to the target problem), and keep all output clearly separated from pro-research-dependent decisions.
+## Output Contract
 
-12. Keep the session alive during wait.
-   Do not end the session or mark the task complete solely because pro-research is still running. Return concise status updates and explicit pending actions, then wait for the Oracle result before moving on.
+Produce one run directory under `${CODEX_HOME:-$HOME/.codex}/ask-pro-model/`.
 
-13. Strict idle-wait mode.
-   Do not question or test the pro-research run status repeatedly. The default wait is for result completion. Task-related investigation is allowed, but is not a substitute for the awaited pro-research output. If there is genuine suspicion that the run is not progressing, perform one status validation check only, then return to waiting.
+Required files:
 
-## Prompt Contract
+1. `research-context.md`
+2. `pro-prompt.md`
+3. `pro-response.md`
 
-- State the deliverable first.
-- Name every attached path and its role.
-- Spell out the main question, constraints, and what has already been tried.
-- For engineering diagnosis, ask for competing hypotheses, evidence, confidence, and next steps.
-- For scientific research, ask for evidence, uncertainty, open questions, limitations, and where the current materials stop supporting the claim.
+Optional file:
+
+- `run-notes.md` for login, model-selection, upload, waiting, or error notes.
+
+`research-context.md` required section order:
+
+1. `Task Purpose`
+2. `Materials Map`
+3. `Current Context`
+4. `Timeline`
+5. `Observed Facts`
+6. `Comparisons and Tensions`
+7. `Hypotheses or Interpretive Angles`
+8. `Open Questions`
+9. `Missing Materials`
+10. `Inlined Source Materials`
+11. `Appendix` when needed
+
+Section rules:
+
+- `Task Purpose`: state the goal, core question, decision to unblock, scope limits, and fixed constraints.
+- `Materials Map`: list every included source with path, type, role, relevance, and priority. Distinguish core evidence from background reference, historical context, decision record, method note, or supporting documentation when useful.
+- `Current Context`: provide rich orientation for the reader, including current state, prior state, terminology, assumptions, relevant history, why the question matters, and what has already been tried.
+- `Timeline`: reconstruct the relevant sequence of events; if unknown, state that directly.
+- `Observed Facts`: include only statements supported by the source materials.
+- `Comparisons and Tensions`: capture expected versus actual behavior, conflicts between sources, and other meaningful contrasts.
+- `Hypotheses or Interpretive Angles`: include interpretation only, clearly labeled as interpretation.
+- `Open Questions`: state what remains unresolved.
+- `Missing Materials`: identify the highest-value missing evidence or background materials that would materially improve interpretation.
+- `Inlined Source Materials`: write source headings and omission notes with shell commands, then append the source text from files on disk with `cat`, `sed -n`, or `awk`. Include both direct evidence and supporting/background documentation that a downstream reader would otherwise need to retrieve separately. Do not manually copy or retype original source text in this section.
+- `Appendix`: use for overflow background, glossary material, parameter definitions, or additional supporting documents that remain relevant but would make the main body unwieldy.
+
+`pro-prompt.md` rules:
+
+- State the requested Pro deliverable first.
+- State the core question and decision to unblock.
+- Tell ChatGPT Pro to reason from the attached or pasted `research-context.md`.
+- Ask for evidence-grounded judgment, uncertainty, competing explanations, and next checks when relevant.
+- Do not include secrets or unrelated background.
+
+`pro-response.md` rules:
+
+- Save the final ChatGPT Pro response verbatim or as close as the UI allows.
+- Add only a short heading with the run timestamp and model label if visible.
+- Do not rewrite the Pro response while saving it.
 
 ## Safety
 
-- Keep API mode opt-in only. Do not switch to `--engine api` unless the user explicitly approves spend.
-- Do not send secrets, credentials, or unrelated large directories.
-- Do not send raw binary-heavy artifacts through the wrapper. Convert them to text first.
-- Treat Oracle as a second opinion and verify important claims locally.
+- Do not inline secrets, credentials, tokens, keys, or unrelated large directories.
+- Do not inline raw binary-heavy artifacts. Convert them to text first.
+- Do not manually paste original source-file contents into `Inlined Source Materials`.
+- Do not treat interpretations as facts just because they sound plausible.
+- Before transmission, scan selected materials and `research-context.md` for obvious sensitive paths or content such as `.env`, keys, tokens, credentials, auth dumps, and unrelated private data.
+- Treat uploading or pasting package contents into ChatGPT as third-party transmission. Confirm at action time unless the user explicitly approved sending that specific package to ChatGPT Pro in the current request.
+- If Safari shows login, password, 2FA, CAPTCHA, security challenge, or account recovery, hand off to the user.
+- If ChatGPT shows an error, expired login, unavailable model, upload failure, or a stuck non-progressing state, record it in `run-notes.md` and ask the user instead of silently changing provider or model.
 
 ## Resources
 
-- `scripts/run_pro_research.sh`: Login bootstrap, preview, and browser-run wrapper with slugging and safety guards.
-- `references/problem-framing.md`: Define the question, deliverable, and decision boundary.
-- `references/second-opinion-brief.md`: Ask for a structured second opinion with evidence and uncertainty.
-- `references/root-cause-hypotheses.md`: Compare competing explanations for a hard problem.
-- `references/literature-synthesis.md`: Synthesize papers, notes, and competing methods.
-- `references/experiment-anomaly-diagnosis.md`: Diagnose contradictory or abnormal results.
-- `references/argument-and-contribution-planning.md`: Pressure-test research framing, contribution claims, and next steps.
-- `references/theory-derivation-check.md`: Check whether a derivation or interpretation is actually supported.
-- `references/context-selection.md`: Choose the smallest mixed evidence bundle that still contains the truth.
+- `references/single-file-layout.md`: Required structure and section behavior for `research-context.md`.
+- `references/problem-framing.md`: Define the goal, question, decision boundary, and constraints.
+- `references/context-selection.md`: Decide what to include, exclude, convert, and inline.
+- `references/chatgpt-pro-safari.md`: Use Safari and Computer Use to submit the package to ChatGPT Pro, wait, and save the response.
+- `references/second-opinion-brief.md`: Package evidence for a judgment-oriented review.
+- `references/root-cause-hypotheses.md`: Compare competing explanations without collapsing them into one story too early.
+- `references/literature-synthesis.md`: Extract and compare claims, methods, assumptions, and gaps across research materials.
+- `references/experiment-anomaly-diagnosis.md`: Structure contradictory or surprising results.
+- `references/argument-and-contribution-planning.md`: Surface the main claim, support, weaknesses, and missing evidence.
+- `references/theory-derivation-check.md`: Mark valid steps, hidden assumptions, and unsupported jumps.
+- `scripts/wait_for_pro_response.sh`: Sleep once between ChatGPT Pro status checks without imposing a maximum wait.

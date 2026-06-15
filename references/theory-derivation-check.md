@@ -2,27 +2,23 @@
 
 Use this when the user wants to know whether a derivation, proof sketch, interpretation, or theoretical conclusion is actually supported by the available materials.
 
-## Prompt Skeleton
+## What To Pull Into The File
 
-```text
-Task type: theory-derivation-check
-Deliverable: theory check note
+- In `Task Purpose`: the exact derivation, proof sketch, interpretation, or conclusion under inspection.
+- In `Current Context`: the notation, definitions, source assumptions, and adjacent theory context needed to read the derivation correctly.
+- In `Observed Facts`: the statements that are explicitly present in the source materials.
+- In `Comparisons and Tensions`: where a note, derivation, paper, and implementation disagree or use different assumptions.
+- In `Hypotheses or Interpretive Angles`: alternative readings of ambiguous steps, clearly marked as interpretation.
+- In `Open Questions`: what remains unproved.
+- In `Inlined Source Materials`: the key derivation lines, theorem statements, definitions, source assumptions, reference notes, and implementation notes.
 
-Claim or derivation to inspect:
-<equation, proof sketch, interpretation, or conclusion>
+## Theory Checklist
 
-Materials map:
-- <path>: derivation or note
-- <path>: source paper or reference
-- <path>: implementation or experiment note if relevant
+- valid steps
+- hidden assumptions
+- unsupported jumps
+- alternative interpretations
+- what would need to be proved or measured next
+- what surrounding theory or definitions must be read alongside the derivation
 
-Question:
-Check whether the derivation or interpretation is valid, where the assumptions enter, and where the support from the materials ends.
-
-Required output:
-- Valid steps
-- Hidden assumptions
-- Unsupported jumps
-- Alternative interpretations
-- What would need to be proved or measured next
-```
+Do not silently repair broken steps. Preserve the gap and label it.

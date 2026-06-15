@@ -1,6 +1,11 @@
 interface:
-  display_name: "Pro Research"
-  short_description: "Deep research and diagnosis with Oracle"
-  default_prompt: "Use $pro-research to run a browser-first Oracle pass for hard diagnosis, literature synthesis, experiment analysis, or mixed evidence research."
+  display_name: "Ask Pro Model"
+  short_description: "Evidence pack plus ChatGPT Pro consultation"
+  default_prompt: "Use $ask-pro-model to compile a rich evidence package, send it to ChatGPT Pro through Safari, wait for completion, and save the response."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "computer-use"
+      description: "Computer Use MCP for operating Safari and ChatGPT UI"
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

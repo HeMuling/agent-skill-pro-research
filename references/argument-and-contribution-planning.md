@@ -1,30 +1,24 @@
 # Argument and Contribution Planning
 
-Use this when the user needs to clarify the research question, argument structure, contribution claim, or next research step before drafting prose.
+Use this when the user needs to clarify the research question, argument structure, contribution claim, or next research step before drafting prose. The goal is to expose what the materials actually support before prose hardens the argument.
 
-## Prompt Skeleton
+## What To Pull Into The File
 
-```text
-Task type: argument-and-contribution-planning
-Deliverable: planning memo
+- In `Task Purpose`: what claim or contribution needs to be pressure-tested.
+- In `Current Context`: prior framing notes, related-work positioning, evidence history, and why the contribution question matters now.
+- In `Observed Facts`: only the evidence that is actually in the materials.
+- In `Comparisons and Tensions`: where the current claim outruns the evidence, or where two sources point in different directions.
+- In `Hypotheses or Interpretive Angles`: candidate contribution framings, clearly marked as provisional.
+- In `Missing Materials`: the evidence needed before the contribution can be stated more strongly.
 
-Target:
-<paper, proposal, note, presentation, or internal research memo>
+## Contribution Checklist
 
-Materials map:
-- <path>: notes
-- <path>: prior draft or outline
-- <path>: evidence or experiments
-- <path>: related work summary
+- core claim
+- strongest supporting evidence
+- closest competing interpretation
+- weakest link or overclaim
+- missing evidence before drafting
+- safest next framing if the evidence does not improve
+- surrounding background or related-work context needed to judge the contribution honestly
 
-Question:
-Help me clarify the core claim, contribution, argument structure, risks, and missing evidence before writing.
-
-Required output:
-- Core claim
-- Candidate contribution framing
-- Strongest supporting evidence
-- Weak links or overclaims
-- Missing evidence
-- Recommended next work before drafting
-```
+If the draft materials contain inflated language, preserve that fact in the file and contrast it with the actual support instead of smoothing it over.
