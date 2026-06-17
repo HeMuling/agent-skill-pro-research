@@ -71,8 +71,8 @@ Invoke this skill only on explicit request. Do not use it from task-shape infere
 13. Use Safari and Computer Use for ChatGPT Pro.
    Follow `references/chatgpt-pro-safari.md`. Do not use Oracle, Playwright, browser API automation, or model API mode. Prefer uploading `research-context.md` and pasting `pro-prompt.md`; if upload is unavailable, paste combined content only if the UI accepts it.
 
-14. Wait until ChatGPT Pro finishes.
-   If ChatGPT is visibly thinking, streaming, or otherwise progressing normally, do not interrupt, restart, or abandon the run because it is slow. Run `scripts/wait_for_pro_response.sh` between checks and continue until completion.
+14. Confirm ChatGPT Pro has started processing, then wait until it finishes.
+   After submitting, inspect the UI before any long sleep. Enter the waiting loop only after there is a clear progress signal: the submitted message appears in the conversation, the input is disabled or replaced by a stop control, ChatGPT shows a thinking/reasoning/progress indicator, or response text has started streaming. If the message remains only in the composer, upload is still pending, no assistant turn appears, or there is no clear indication that the Pro model started thinking, do not run `scripts/wait_for_pro_response.sh`; record the observation in `run-notes.md` and ask the user before retrying, resubmitting, or changing approach. Once the progress signal is visible, do not interrupt, restart, or abandon the run because it is slow. Run `scripts/wait_for_pro_response.sh` between checks and continue until completion.
 
 15. Save the final response.
    Copy the completed ChatGPT Pro answer into `pro-response.md`. If login, model selection, upload, or waiting issues occurred, write concise notes to `run-notes.md`.
