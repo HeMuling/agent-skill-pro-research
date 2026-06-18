@@ -6,7 +6,7 @@ usage() {
 Usage:
   wait_for_pro_response.sh [seconds]
 
-Sleeps once between ChatGPT Pro status checks. Defaults to 300 seconds.
+Sleeps once between ChatGPT Pro status checks. Defaults to 45 seconds.
 EOF
 }
 
@@ -20,7 +20,7 @@ if [ "$#" -gt 1 ]; then
   exit 2
 fi
 
-seconds="${1:-300}"
+seconds="${1:-45}"
 
 case "$seconds" in
   ''|*[!0-9]*)

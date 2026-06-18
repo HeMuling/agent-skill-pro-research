@@ -31,9 +31,10 @@ Use this reference only after `research-context.md` and `pro-prompt.md` exist in
 ## Waiting
 
 - Begin this section only after the submit-confirmation step has shown a clear progress signal.
+- First run `scripts/wait_for_pro_response.sh 30`, then recheck Safari. Continue only if ChatGPT is still visibly thinking, streaming, otherwise progressing normally, or already complete.
+- If ChatGPT is still normally progressing after the 30-second check, run one long wait with `scripts/wait_for_pro_response.sh 300`.
+- After the long wait, poll with `scripts/wait_for_pro_response.sh 45` between UI checks until the final response is complete.
 - If ChatGPT is visibly thinking, streaming, or otherwise progressing normally, do not interrupt, restart, click around, or stop because the run is slow.
-- Between checks, run `scripts/wait_for_pro_response.sh` from the skill directory or call it by absolute path.
-- Repeat sleep and status checks until the final response is complete.
 - If the UI shows an error, expired login, unavailable model, upload failure, or a stuck non-progressing state, write the observation to `run-notes.md` and ask the user before changing approach.
 
 ## Capturing The Result
