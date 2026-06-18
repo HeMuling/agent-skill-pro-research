@@ -15,16 +15,18 @@ Use this reference only after `research-context.md` and `pro-prompt.md` exist in
 2. Navigate to ChatGPT.
 3. If login, password, 2FA, CAPTCHA, account recovery, or a security challenge appears, stop and ask the user to complete it.
 4. Start a new chat unless the user requested a specific existing chat.
-5. Select the best available Pro or deep-reasoning model shown in the UI. Do not hardcode a model name; use the strongest Pro/reasoning option visible to the account.
-6. Prefer uploading `research-context.md`.
-7. Paste the contents of `pro-prompt.md` into the message box.
-8. If upload is unavailable, paste the combined content only if the UI accepts it without truncation:
+5. Open the model selector and select the best available Pro or deep-reasoning model shown in the UI. Do not hardcode a model name; use the strongest Pro/reasoning option visible to the account.
+6. Verify the visible selected-model label or selector state before uploading or pasting any package content. Proceed only if it clearly indicates a Pro or deep-reasoning model. Do not infer Pro status from account identity alone.
+7. If the selected model is ordinary/default, the selector is ambiguous, or no Pro/deep-reasoning option is visible, stop. Write the observation to `run-notes.md` and ask the user before continuing; do not upload, paste, submit, or wait with a non-Pro model.
+8. Prefer uploading `research-context.md`.
+9. Paste the contents of `pro-prompt.md` into the message box.
+10. If upload is unavailable, paste the combined content only if the UI accepts it without truncation:
    - First paste `pro-prompt.md`.
    - Then paste a clear separator.
    - Then paste `research-context.md`.
-9. Submit only after the intended model and content are visible and correct.
-10. After submitting, confirm the request actually entered the conversation before any long sleep. Acceptable progress signals include the submitted message appearing in the thread, the input becoming disabled or showing a stop control, a visible thinking/reasoning/progress indicator, or response text beginning to stream.
-11. If the message remains only in the composer, upload is still pending, no assistant turn appears, or there is no clear indication that the Pro model started thinking, do not enter the waiting loop. Record the observation in `run-notes.md` and ask the user before retrying, resubmitting, refreshing, or changing approach.
+11. Submit only after the intended Pro/deep-reasoning model and content are visible and correct.
+12. After submitting, confirm the request actually entered the conversation before any long sleep. Acceptable progress signals include the submitted message appearing in the thread, the input becoming disabled or showing a stop control, a visible thinking/reasoning/progress indicator, or response text beginning to stream.
+13. If the message remains only in the composer, upload is still pending, no assistant turn appears, or there is no clear indication that the Pro model started thinking, do not enter the waiting loop. Record the observation in `run-notes.md` and ask the user before retrying, resubmitting, refreshing, or changing approach.
 
 ## Waiting
 
